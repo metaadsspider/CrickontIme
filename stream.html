@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title>Watch Live</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Video.js styles and scripts -->
   <link href="https://vjs.zencdn.net/8.3.0/video-js.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
@@ -14,7 +16,7 @@
 
   <main class="p-4">
     <video
-      id="video"
+      id="videoPlayer"
       class="video-js vjs-default-skin vjs-big-play-centered"
       controls
       autoplay
@@ -24,27 +26,25 @@
   </main>
 
   <script>
-    const video = document.getElementById('video');
-    const streamUrl = "https://ams.sandbrix.live/LiveApp/streams/tWMD8u0Wok0o03BT192917485703.m3u8";
+    const streamLinks = {
+      match1: "https://ams.sandbrix.live/LiveApp/streams/tWMD8u0Wok0o03BT192917485703.m3u8"
+    };
 
-    if (Hls.isSupported()) {
-      const hls = new Hls({
-        liveSyncDuration: 3,
-        liveMaxLatencyDuration: 6,
-        maxLiveSyncPlaybackRate: 1.5
-      });
-      hls.loadSource(streamUrl);
-      hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        video.play();
-      });
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = streamUrl;
-      video.addEventListener('loadedmetadata', () => {
-        video.play();
-      });
+    const params = new URLSearchParams(window.location.search);
+    const match = params.get("match");
+    const videoUrl = streamLinks[match];
+
+    if (videoUrl) {
+      const video = document.getElementById("videoPlayer");
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(videoUrl);
+        hls.attachMedia(video);
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        video.src = videoUrl;
+      }
     } else {
-      document.body.innerHTML = "<h1 class='text-center text-white mt-20'>Stream not supported in this browser</h1>";
+      document.body.innerHTML = "<h1 class='text-center text-white mt-20'>Stream not found</h1>";
     }
   </script>
 </body>

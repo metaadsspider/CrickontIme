@@ -1,11 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Watch Live</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js/dist/video-js.min.css">
+
+  <!-- Video.js styles and scripts -->
+  <link href="https://vjs.zencdn.net/8.3.0/video-js.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body class="bg-black text-white">
   <header class="p-4 bg-gray-900">
@@ -13,21 +15,37 @@
   </header>
 
   <main class="p-4">
-    <video id="live-player" class="video-js vjs-big-play-centered" controls autoplay preload="auto" width="100%" height="auto"></video>
+    <video
+      id="videoPlayer"
+      class="video-js vjs-default-skin vjs-big-play-centered"
+      controls
+      autoplay
+      width="100%"
+      height="auto"
+    ></video>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/video.js/dist/video.min.js"></script>
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
     const streamLinks = {
-      match1: "https://your-proxy.vercel.app/proxy/https://example.com/stream.m3u8"
+      match1: "https://hssportsprepack.akamaized.net/videos/cricket/1271414670/1271435314/in/hin/v3/hevc/1752531566118/hls/plain/master_GEFN6PsWUM8JTwqx_sd.m3u8?hdnea=st=1752573678~exp=1752574278~acl=/videos/cricket/1271414670/1271435314/in/hin/v3/hevc/1752531566118/hls/plain/*~data=ip=GlCgyhtWLLxwqIMLNnIAwN-userid=CrG9eVTPHE0AsHNEG6fgBa3iSFWQDmzGEj6SZLYDlqpz-did=0veMXPNOyufE48ymbLph6fIncSQsAuG550XZmJzwiua8-cc=in-de=1-pl=web-ap=25.07.04.0-ut=guest-~hmac=aa53a911417b05adf432f40341a211588c0ca556a4ae50ae04d1a64c0132a70c"
     };
-    const player = videojs('live-player');
-    player.src({
-      src: streamLinks[id],
-      type: 'application/x-mpegURL'
-    });
+
+    const params = new URLSearchParams(window.location.search);
+    const match = params.get("match");
+    const videoUrl = streamLinks[match];
+
+    if (videoUrl) {
+      const video = document.getElementById("videoPlayer");
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(videoUrl);
+        hls.attachMedia(video);
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        video.src = videoUrl;
+      }
+    } else {
+      document.body.innerHTML = "<h1 class='text-center text-white mt-20'>Stream not found</h1>";
+    }
   </script>
 </body>
 </html>

@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <title>Watch Live</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Video.js styles and scripts -->
   <link href="https://vjs.zencdn.net/8.3.0/video-js.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
@@ -16,7 +14,7 @@
 
   <main class="p-4">
     <video
-      id="videoPlayer"
+      id="video"
       class="video-js vjs-default-skin vjs-big-play-centered"
       controls
       autoplay
@@ -26,25 +24,27 @@
   </main>
 
   <script>
-    const streamLinks = {
-      match1: "https://hssportsprepack.akamaized.net/videos/cricket/1271414670/1271435314/in/hin/v3/hevc/1752531566118/hls/plain/master_GEFN6PsWUM8JTwqx_sd.m3u8?hdnea=st=1752573678~exp=1752574278~acl=/videos/cricket/1271414670/1271435314/in/hin/v3/hevc/1752531566118/hls/plain/*~data=ip=GlCgyhtWLLxwqIMLNnIAwN-userid=CrG9eVTPHE0AsHNEG6fgBa3iSFWQDmzGEj6SZLYDlqpz-did=0veMXPNOyufE48ymbLph6fIncSQsAuG550XZmJzwiua8-cc=in-de=1-pl=web-ap=25.07.04.0-ut=guest-~hmac=aa53a911417b05adf432f40341a211588c0ca556a4ae50ae04d1a64c0132a70c"
-    };
+    const video = document.getElementById('video');
+    const streamUrl = "https://ams.sandbrix.live/LiveApp/streams/tWMD8u0Wok0o03BT192917485703.m3u8";
 
-    const params = new URLSearchParams(window.location.search);
-    const match = params.get("match");
-    const videoUrl = streamLinks[match];
-
-    if (videoUrl) {
-      const video = document.getElementById("videoPlayer");
-      if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(videoUrl);
-        hls.attachMedia(video);
-      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-        video.src = videoUrl;
-      }
+    if (Hls.isSupported()) {
+      const hls = new Hls({
+        liveSyncDuration: 3,
+        liveMaxLatencyDuration: 6,
+        maxLiveSyncPlaybackRate: 1.5
+      });
+      hls.loadSource(streamUrl);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        video.play();
+      });
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = streamUrl;
+      video.addEventListener('loadedmetadata', () => {
+        video.play();
+      });
     } else {
-      document.body.innerHTML = "<h1 class='text-center text-white mt-20'>Stream not found</h1>";
+      document.body.innerHTML = "<h1 class='text-center text-white mt-20'>Stream not supported in this browser</h1>";
     }
   </script>
 </body>

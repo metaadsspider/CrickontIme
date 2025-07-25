@@ -1,16 +1,20 @@
+# Crick On Time
 
-# Styx Sports Clone
+This is a clone of SK FC Player with a custom HLS stream, proxy-based CORS bypass, and Telegram integration.
 
-This is a clone of StyxSports.com with a premium UI inspired by SonyLIV. Deploy this on GitHub Pages and host the proxy server separately.
+## 🚀 How to Run
 
-## Features
+### 1. Host Proxy Server (on Render/Replit)
+Use `proxy-server.js` to deploy a CORS-free proxy.
 
-- Match listing homepage
-- Embedded HLS streaming
-- Tailwind CSS UI
-- Proxy server for CORS bypass
+### 2. Edit Stream URL
+In `config.json`, change `streamUrl` to use your proxy + HLS `.m3u8` link.
 
-## Deployment
+### 3. Host Frontend (GitHub Pages or Cloudflare Pages)
+Upload all files except `proxy-server.js`.
 
-1. Upload files to GitHub and enable GitHub Pages.
-2. Deploy `proxy.js` on Railway/Render.
+Live stream will auto-play.
+
+---
+
+Made for "Crick On Time" - Real-time streaming.

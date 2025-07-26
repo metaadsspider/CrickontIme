@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CRICK ON TIME Sports Streaming Design System */
+
+@layer base {
+  :root {
+    --background: 214 27% 11%;
+    --foreground: 0 0% 98%;
+
+    --card: 216 29% 14%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 216 29% 14%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 147 100% 12%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 216 29% 18%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 216 29% 18%;
+    --muted-foreground: 215 15% 65%;
+
+    --accent: 147 73% 50%;
+    --accent-foreground: 216 29% 14%;
+
+    --destructive: 0 100% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 216 29% 18%;
+    --input: 216 29% 18%;
+    --ring: 147 73% 50%;
+
+    --radius: 0.75rem;
+
+    /* Custom CRICK ON TIME colors */
+    --fc-green: 147 73% 50%;
+    --fc-green-dark: 147 100% 12%;
+    --fc-dark: 214 27% 11%;
+    --fc-card: 216 29% 14%;
+    --fc-red: 0 100% 60%;
+    --fc-cyan: 191 100% 50%;
+    --fc-purple: 271 81% 56%;
+    --fc-orange: 25 95% 53%;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 214 27% 11%;
+    --foreground: 0 0% 98%;
+
+    --card: 216 29% 14%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 216 29% 14%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 147 100% 12%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 216 29% 18%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 216 29% 18%;
+    --muted-foreground: 215 15% 65%;
+
+    --accent: 147 73% 50%;
+    --accent-foreground: 216 29% 14%;
+
+    --destructive: 0 100% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 216 29% 18%;
+    --input: 216 29% 18%;
+    --ring: 147 73% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  .match-card {
+    @apply relative overflow-hidden rounded-xl bg-card border border-border;
+    @apply transition-all duration-500 ease-out;
+    @apply hover:scale-[1.02] hover:shadow-2xl hover:shadow-accent/20;
+    @apply hover:-translate-y-2 hover:border-accent/30;
+    @apply animate-fade-in;
+  }
+
+  .match-card::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0;
+    @apply transition-opacity duration-300;
+  }
+
+  .match-card:hover::before {
+    @apply opacity-100;
+  }
+
+  .watch-live-btn {
+    @apply w-full py-4 font-bold text-white transition-all duration-300;
+    @apply hover:scale-105 active:scale-95 hover:shadow-lg;
+    @apply relative overflow-hidden;
+  }
+
+  .watch-live-btn::before {
+    content: '';
+    @apply absolute inset-0 bg-white/20 transform translate-x-[-100%];
+    @apply transition-transform duration-500;
+  }
+
+  .watch-live-btn:hover::before {
+    @apply translate-x-[100%];
+  }
+
+  .sport-badge {
+    @apply absolute top-3 left-3 z-10 px-3 py-1 rounded-full text-xs font-medium;
+    @apply bg-accent text-accent-foreground backdrop-blur-sm;
+    @apply transition-all duration-300 hover:scale-110;
+    @apply shadow-lg shadow-accent/20;
+  }
+
+  .team-vs {
+    @apply flex items-center justify-between p-4 bg-card/90 backdrop-blur-md;
+    @apply transition-all duration-300;
+  }
+
+  .team-logo {
+    @apply w-12 h-12 rounded-full border-2 border-accent/30;
+    @apply transition-all duration-300 hover:scale-110 hover:border-accent;
+    @apply shadow-lg hover:shadow-accent/20;
+  }
+
+  .vs-divider {
+    @apply flex items-center justify-center w-12 h-12 rounded-full;
+    @apply bg-accent text-accent-foreground font-bold text-lg;
+    @apply transition-all duration-300 hover:scale-110 hover:rotate-12;
+    @apply shadow-lg shadow-accent/30 animate-pulse-slow;
+  }
+
+  .header-time {
+    @apply font-mono text-sm bg-card/50 px-3 py-1 rounded-lg;
+    @apply border border-accent/20 backdrop-blur-sm;
+    @apply transition-all duration-300 hover:bg-accent/10;
+  }
+
+  .telegram-btn {
+    @apply relative overflow-hidden;
+    @apply transition-all duration-300 hover:scale-105;
+    @apply hover:shadow-lg hover:shadow-fc-cyan/30;
+  }
+
+  .telegram-btn::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent;
+    @apply transform translate-x-[-100%] transition-transform duration-700;
+  }
+
+  .telegram-btn:hover::after {
+    @apply translate-x-[100%];
+  }
+
+  .alert-banner {
+    @apply animate-slide-up transition-all duration-300;
+    @apply hover:shadow-lg hover:shadow-destructive/20;
+  }
+
+  .card-stagger {
+    animation-delay: calc(var(--stagger) * 0.1s);
+  }
+
+  .smooth-scroll {
+    scroll-behavior: smooth;
+  }
+
+  /* Hover effects for links */
+  .match-link {
+    @apply block transition-all duration-300;
+    @apply hover:transform hover:scale-[1.02];
+  }
+
+  /* Loading states */
+  .loading-shimmer {
+    @apply relative overflow-hidden bg-muted;
+  }
+
+  .loading-shimmer::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent;
+    @apply animate-[shimmer_2s_ease-in-out_infinite];
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+}
